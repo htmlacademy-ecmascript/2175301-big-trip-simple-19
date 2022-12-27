@@ -1,16 +1,13 @@
 import {createElement} from '../render.js';
-import { destinations, offersByType } from '../mock/mock.js';
+import { destinations, offersByType } from '../constants/point.js';
 import dayjs from 'dayjs';
-
-const DATE_FORMAT_DATE = 'DD MMM';
-const DATE_FORMAT_TIME = 'HH:mm';
+import { DATE_FORMAT_DATE, DATE_FORMAT_TIME} from '../constants/mock';
 
 const createPointTemplate = (point) =>{
   const {type, offers, destination, basePrice, dateFrom, dateTo} = point;
   const pointTypeOffer = offersByType.find((offer) => offer.type === type);
   const pointDestination = destinations.find((item) => destination === item.id);
-  const checkedOffers = pointTypeOffer.offers
-    .filter((offer) => offers.includes(offer.id));
+  const checkedOffers = pointTypeOffer.offers.filter((offer) => offers.includes(offer.id));
 
   const offersTemplate = () => {
     if (!checkedOffers.length) {
@@ -60,23 +57,25 @@ const createPointTemplate = (point) =>{
 };
 
 export default class PointView {
+  #element = null;
+  #point = null;
   constructor({point}) {
-    this.point = point;
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createPointTemplate(this.point);
+  get template() {
+    return createPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

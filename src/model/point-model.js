@@ -1,11 +1,12 @@
-import { getRandomPoint } from '../mock/mock.js';
+import { getRandomPoint } from '../constants/point.js';
 
-const POINTS = 4;
+const POINTS = 5;
 
 export default class PointModel {
-  point = Array.from({length: POINTS}, getRandomPoint);
+  #point = Array.from({length: POINTS}, getRandomPoint);
 
-  getPoints(){
-    return this.point;
+  get points(){
+    return this.#point;
   }
 }
+
